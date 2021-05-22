@@ -15,9 +15,9 @@ db = SQLAlchemy(app)
 @app.route("/", methods=("GET", "POST"))
 def home():
     form = []
-    try:    
+    try:
         form = Users.query.all()
-        
+
         user = Users(name=request.form['name'], 
                         number=request.form['number'],
                         distance=request.form['distance']
@@ -29,16 +29,15 @@ def home():
         print("Ошибка добавления в БД")
     
     page = request.args.get('page', 1, type=int)
-    posts = Users.query.order_by(Users.date.desc()).paginate(page=page, per_page=3)
+    form = Users.query.order_by(Users.date.desc()).paginate(page=page, per_page=5)
 
     if request.form.get("submit_a"):
-	    form = Users.query.order_by(Users.number.asc())
+	    form = Users.query.order_by(Users.number.asc()).paginate(page=page, per_page=5)
     elif request.form.get("submit_b"):
-        form = Users.query.order_by(Users.number.desc())
+        form = Users.query.order_by(Users.number.desc()).paginate(page=page, per_page=5)
     else:
         print("Ошибка добавления")
-
-    return render_template("home.html", title="Главная страница", form=form, posts=posts)
+    return render_template("home.html", title="Главная страница", form=form,)
 
 
 class Users(db.Model):
