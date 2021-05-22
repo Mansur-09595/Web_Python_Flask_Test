@@ -1,0 +1,45 @@
+{% extends '_base.html' %}
+{% block title %} Регистрация {% endblock %}
+
+{% block content %}
+{% for cat, msg in get_flashed_messages(True) %}
+    <div class="flash{{cat}}">{{msg}}</div>
+{% endfor %}
+<br>
+<form action="" method="post" class="form-contact">
+    <p><label>Name: </label> <input type="text" name="name", value="" required />
+    <p><label>Number: </label> <input type="text" name="number", value="" required />
+    <p><label>Distance: </label> <input type="text" name="distance", value="" required />
+    <p> <input type="submit" value="SignUp">
+</form>
+<hr>
+
+<ul>
+    <form method ="post" action="/">
+        <button type="submit" name="submit_a" value="submit_a"> Young Age </button>
+        <button type="submit" name="submit_b" value="submit_b"> Old Age </button>
+    </form>
+    <hr>
+    {% for user in form %}  
+    <li><p>id: {{user.id}}</p>
+        <ul>
+            <li>Имя: {{user.name}}</li>
+            <li>Возраст: {{user.number}}</li>
+            <li>Расстояние: {{user.distance}}</li>
+            <br>
+        </ul>
+    </li>
+    {% endfor %}
+    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+          {% if posts.page == page_num %}
+            <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+          {% else %}
+            <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+          {% endif %}
+            {% else %}
+              ...
+          {% endif %}
+      {% endfor %}
+</ul>
+{% endblock %}
